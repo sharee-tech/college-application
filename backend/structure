@@ -1,0 +1,63 @@
+DATABASE:
+└──User table/
+        ├── userId (pk) ──|
+        ├── username ─────│─────────────│
+        └── password      │             │
+        └── email ────────│─────────│   │
+                          │         │   │
+└──SavedColleges table/   │         │   │
+        ├── id (pk)       │         │   │
+        ├── collegeId ────│─────    │   │
+        ├── customNote    │     │   │   │
+        ├── appStatus     │     │   │   │
+        └── userId (FK) ──      │   │   │
+                                │   │   │
+└──FavColleges table/           │   │   │
+        ├── id (pk)             │   │   │
+        ├── favoriteTimes       │   │   │
+        └── collegeId (FK) ──────   │   │
+                                    │   │
+└──ContactUs table/                 │   │
+        ├── id (pk)                 │   │
+        ├── username(FK) ───────────│───│
+        ├── text                    │
+        └── email (FK) ─────────────│
+
+project/
+│
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   ├── org/
+│   │   │   │   ├── example/
+│   │   │   │   │   ├── services/
+│   │   │   │   │   │   ├── CollegeServices.java
+│   │   │   │   │   │   ├── UserService.java
+│   │   │   │   │   │
+│   │   │   │   │   └── models/
+│   │   │   │   │   │   └── College.java
+│   │   │   │   │   │   ├── User.java
+│   │   │   │   │   │
+│   │   │   │   │   └── controllers/
+│   │   │   │   │   │   └── CollegeController.java
+│   │   │   │   │   │
+│   │   │   │   │   └── Repositories/
+│   │   │   │   │   │   ├── CollegeRepository.java
+│   │   │   │   │   │   ├── UserRepository.java
+│   │   │   │   │   │   ├── FavoriteTimesRepository.java
+│   │   │   │   │   │
+│   │   │   │   │   └── Configurations/
+│   │   │   │   │   │   ├── DatabaseConfig.java
+│   │   │   │   │   │   ├── SecurityConfig.java
+│   │   │   │   │
+│   │   │   │   └── CollegeExplorerApplication.java (Main Java file)
+│   │   │   │
+│   │   │   └── resources/
+│   │   │       └── react (frontend)
+│   │   │
+│   │   └── resources/
+│   │       └── application.properties (Backend configs, like DB connection details)
+│   │
+│   └── test/ (Tests if any)
+│
+└
