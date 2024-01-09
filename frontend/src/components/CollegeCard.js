@@ -24,13 +24,17 @@ export default function CollegeCard({ details }) {
           </p>
           <p className="card-text">
             Admission Rate:<br></br>
-            {details["latest.admissions.admission_rate.overall"]}
+            {Math.round(
+              details["latest.admissions.admission_rate.overall"] * 100
+            ) + "%"}
           </p>
           <p className="card-text">
-            Average SAT Score: <h6></h6>
+            Average SAT Score:<br></br>
+            {details["latest.admissions.sat_scores.average.overall"]}
           </p>
           <p className="card-text">
-            Average ACT Score: <h6></h6>
+            Average ACT Score:<br></br>
+            {details["latest.admissions.act_scores.midpoint.cumulative"]}
           </p>
         </div>
         <div className="card-footer">
