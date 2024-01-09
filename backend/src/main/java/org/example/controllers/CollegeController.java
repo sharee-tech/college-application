@@ -50,6 +50,18 @@ public class CollegeController {
         }
     }
 
+    //    Will check if a college already exists in favorites for a given user
+    @GetMapping ("/colleges/{userId}/{collegeId}")
+    public ResponseEntity<College> getCollegeByUserIdAndCollegeId(@PathVariable("userId") Integer userId, @PathVariable("collegeId") Integer collegeId) {
+        Optional<College> college = collegeRepository.findByUserIdAndCollegeId(userId, collegeId);
+
+        if (college.isPresent()) {
+            return new ResponseEntity<>(college.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     //    Delete college from favorites list
     @DeleteMapping("/colleges/{userId}/{collegeId}")
     public ResponseEntity<HttpStatus> deleteCollege(@PathVariable("userId") Integer userId, @PathVariable("collegeId") Integer collegeId) {
