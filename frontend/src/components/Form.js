@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import React from "react";
 import states from "../states";
 import axios from "axios";
 import cip_4_digit from "../cip_4_digit.json";
 import CollegeService from "../services/CollegeService";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../UserContext";
 
-const userId = 54;
+// const userId = null;
 
 export default function Form() {
   const navigate = useNavigate();
@@ -17,32 +18,73 @@ export default function Form() {
   const [results, setResults] = useState([]);
   const [degreeProgramChosen, setDegreeProgramChosen] = useState("");
   const [favorites, setFavorites] = useState([]);
+  // get user/userid from context
+  const { currentUser } = useContext(UserContext);
 
-  const handleCheck = (event) => {
-    var updatedList = [...favorites];
-    if (event.target.checked) {
-      updatedList = [...favorites, event.target.value];
-    } else {
-      updatedList.splice(favorites.indexOf(event.target.value), 1);
+  // updated handleCheck to not allow for duplicate entry in favorites list
+  const handleCheck = async function(event) {
+    let exists = false;
+    try {
+      // if college exists, then uncheck checkbox and do not add collegeId to state array
+      const response = await CollegeService.getOne(
+        currentUser.id,
+        event.target.value
+      );
+      exists = true;
+      alert("College already exists in Favorites");
+      event.target.checked = false;
+    } catch (e) {
+      var updatedList = [...favorites];
+      if (event.target.checked) {
+        updatedList = [...favorites, event.target.value];
+      } else {
+        updatedList.splice(favorites.indexOf(event.target.value), 1);
+      }
+      setFavorites(updatedList);
     }
-    setFavorites(updatedList);
+    return exists;
   };
 
+  // const checkDuplicate = function(collegeId) {
+  //   let exists = false;
+  //   console.log(`first declaration: ${exists}`);
+  //   alert(collegeId);
+  //   CollegeService.getOne(currentUser.id, collegeId)
+  //     .then((response) => {
+  //       console.log(response);
+  //       exists = true;
+  //       console.log(`second declaration: ${exists}`);
+  //     })
+  //     .catch((e) => {
+  //       console.log(`inside error declaration: ${exists}`);
+  //     });
+  //   console.log(`return declaration: ${exists}`);
+  //   return exists;
+  // };
+
   const handleAddFavorites = function() {
-    alert("test");
     //loop through favorites array use .map() and for each call axios.create
-    const data = { userId: userId, notes: null, appStatus: 0, collegeId: null };
+    const data = {
+      userId: currentUser.id,
+      notes: null,
+      appStatus: 0,
+      collegeId: null,
+    };
     favorites.map((college) => {
       data["collegeId"] = college;
       CollegeService.create(data)
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
         })
         .catch((e) => {
-          console.log(e);
+          // console.log(e);
         });
     });
     navigate("/favorites");
+  };
+
+  const handleRedirectRegister = function() {
+    navigate("/register");
   };
 
   const degreePrograms = cip_4_digit.sort(function(a, b) {
@@ -67,14 +109,17 @@ export default function Form() {
       : schoolSize == 3
       ? "&latest.student.size__range=15001..100000"
       : "";
-  const degreeProgramChosenParam = `&latest.programs.cip_4_digit.code=${degreeProgramChosen}`;
+  const degreeProgramChosenParam =
+    !degreeProgramChosen == ""
+      ? `&latest.programs.cip_4_digit.code=${degreeProgramChosen}`
+      : "";
 
-  console.log(favorites);
-  console.log(results);
-  console.log(degreePrograms[2].title);
-  console.log(degreePrograms[2].code);
-  console.log(degreeProgramChosen);
-  console.log(baseUrl);
+  // console.log(favorites);
+  // console.log(results);
+  // console.log(degreePrograms[2].title);
+  // console.log(degreePrograms[2].code);
+  // console.log(degreeProgramChosen);
+  // console.log(baseUrl);
 
   const apiCall =
     baseUrl +
@@ -84,7 +129,7 @@ export default function Form() {
     degreeParam +
     schoolSizeParam +
     degreeProgramChosenParam;
-  console.log(apiCall);
+  // console.log(apiCall);
   return (
     <div className="App">
       <form
@@ -97,7 +142,7 @@ export default function Form() {
           });
         }}
       >
-        <div className="form-group">
+        <div className="mb-3">
           <label value={degreeType}>Select a degree:</label>
           <select
             className="form-control"
@@ -110,7 +155,7 @@ export default function Form() {
           </select>
         </div>
 
-        <div className="form-group">
+        <div className="mb-3">
           <label value="degreeSelector">Select a degree program:</label>
           <select
             className="form-control"
@@ -126,7 +171,7 @@ export default function Form() {
           </select>
         </div>
 
-        <div className="form-group">
+        <div className="mb-3">
           <label value="inputState">Select a state:</label>
           <select
             className="form-control"
@@ -142,7 +187,7 @@ export default function Form() {
           </select>
         </div>
 
-        <div className="form-group">
+        <div className="mb-3">
           <label value={maxTuition}>Tuition maximum:</label>
           <input
             type="text"
@@ -153,7 +198,7 @@ export default function Form() {
           ></input>
         </div>
 
-        <div className="form-group">
+        <div className="mb-3">
           <label value={schoolSize}>Select a school size:</label>
           <select
             className="form-control"
@@ -167,37 +212,44 @@ export default function Form() {
         </div>
 
         <button type="submit" className="btn btn-primary">
-          Submit
+          Search Colleges
         </button>
       </form>
       <br></br>
 
       <div>
-        <button
-          type="submit"
-          className="btn btn-primary"
-          onClick={handleAddFavorites}
-        >
-          Add Selected Colleges to Favorites
-        </button>
-        <table className="table" key="school list table">
-          <thead key="table heading">
-            <tr key="table row heading">
-              <th scope="col" key="save to fav">
-                Save to Favorites
-              </th>
-              <th scope="col" key="school name head">
-                School Name
-              </th>
-              <th scope="col" key="school state head">
-                School State
-              </th>
-              <th scope="col" key="school tuition head">
-                School tuition in-state
-              </th>
-              <th scope="col" key="school size head">
-                School Size
-              </th>
+        {currentUser ? (
+          <button
+            type="submit"
+            className="mt-5 btn btn-primary"
+            onClick={handleAddFavorites}
+          >
+            Add Selected Colleges to Favorites
+          </button>
+        ) : (
+          <>
+            <p className="mt-3 lead">
+              Create an account and login so you can save favorite colleges.
+            </p>
+            <button
+              type="submit"
+              className="btn btn-success"
+              onClick={handleRedirectRegister}
+            >
+              Signup to Save Favorites
+            </button>
+          </>
+        )}
+
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">Save to Favorites</th>
+
+              <th scope="col">School Name</th>
+              <th scope="col">School State</th>
+              <th scope="col">School tuition in-state</th>
+              <th scope="col">School Size</th>
             </tr>
           </thead>
 
@@ -205,15 +257,27 @@ export default function Form() {
             return (
               <tbody>
                 <tr key={result["school.id"]}>
-                  <th className="checkbox" key="favorites checkbox">
-                    <input
-                      onChange={(e) => handleCheck(e)}
-                      className="form-check-input"
-                      type="checkbox"
-                      value={result["id"]}
-                      key={result["id"]}
-                    />
-                  </th>
+                  {currentUser ? (
+                    <th className="checkbox">
+                      <input
+                        onChange={(e) => handleCheck(e)}
+                        className="form-check-input"
+                        type="checkbox"
+                        value={result["id"]}
+                      />
+                    </th>
+                  ) : (
+                    <th className="checkbox">
+                      <input
+                        onChange={(e) => handleCheck(e)}
+                        className="form-check-input"
+                        type="checkbox"
+                        value={result["id"]}
+                        disabled
+                      />
+                    </th>
+                  )}
+
                   <td> {result["school.name"]}</td>
                   <td> {result["school.state"]}</td>
                   <td>${result["latest.cost.tuition.in_state"]}</td>
