@@ -9,7 +9,7 @@ import AuthService from "../services/auth.service";
 const required = (value) => {
   if (!value) {
     return (
-      <div className="alert alert-danger" role="alert">
+      <div className="mt-3 p-2 alert alert-danger" role="alert">
         This field is required!
       </div>
     );
@@ -102,7 +102,7 @@ const Register = () => {
 
   return (
     <div className="col-md-12">
-      <div className="card card-container">
+      <div className="card login-logout-card card-container">
         <img
           src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
           alt="profile-img"
@@ -112,7 +112,7 @@ const Register = () => {
         <Form onSubmit={handleRegister} ref={form}>
           {!successful && (
             <div>
-              <div className="form-group">
+              <div className="mb-3">
                 <label htmlFor="username">Username</label>
                 <Input
                   type="text"
@@ -124,7 +124,7 @@ const Register = () => {
                 />
               </div>
 
-              <div className="form-group">
+              <div className="mb-3">
                 <label htmlFor="email">Email</label>
                 <Input
                   type="text"
@@ -136,7 +136,7 @@ const Register = () => {
                 />
               </div>
 
-              <div className="form-group">
+              <div className="mb-3">
                 <label htmlFor="password">Password</label>
                 <Input
                   type="password"
@@ -148,9 +148,9 @@ const Register = () => {
                 />
               </div>
 
-              <div className="form-group">
-                <button className="btn btn-primary btn-block">Sign Up</button>
-              </div>
+              <button className="mt-3 btn btn-primary btn-block">
+                Sign Up
+              </button>
             </div>
           )}
 
