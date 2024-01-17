@@ -45,23 +45,6 @@ export default function Form() {
     return exists;
   };
 
-  // const checkDuplicate = function(collegeId) {
-  //   let exists = false;
-  //   console.log(`first declaration: ${exists}`);
-  //   alert(collegeId);
-  //   CollegeService.getOne(currentUser.id, collegeId)
-  //     .then((response) => {
-  //       console.log(response);
-  //       exists = true;
-  //       console.log(`second declaration: ${exists}`);
-  //     })
-  //     .catch((e) => {
-  //       console.log(`inside error declaration: ${exists}`);
-  //     });
-  //   console.log(`return declaration: ${exists}`);
-  //   return exists;
-  // };
-
   const handleAddFavorites = function() {
     //loop through favorites array use .map() and for each call axios.create
     const data = {
@@ -114,13 +97,6 @@ export default function Form() {
       ? `&latest.programs.cip_4_digit.code=${degreeProgramChosen}`
       : "";
 
-  // console.log(favorites);
-  // console.log(results);
-  // console.log(degreePrograms[2].title);
-  // console.log(degreePrograms[2].code);
-  // console.log(degreeProgramChosen);
-  // console.log(baseUrl);
-
   const apiCall =
     baseUrl +
     fieldsDefault +
@@ -138,7 +114,10 @@ export default function Form() {
           // clear existing checked colleges
           setFavorites([]);
           axios.get(apiCall).then((res) => {
-            setResults(res.data["results"]);
+            //call to API and setting results, sending alert if no results are found
+            if (res.data["results"].length == 0) {
+              alert("There are no results for this search!");
+            } else setResults(res.data["results"]);
           });
         }}
       >
