@@ -10,11 +10,11 @@ export default function Navbar({ logout, user }) {
 
         {user ? (
           <>
-            <div class="navbar-nav">
+            <div className="navbar-nav">
               <li className="nav-item">
                 <NavLink
                   to="/search"
-                  activeClassName="active"
+                  activeclassname="active"
                   className="nav-link"
                 >
                   Search
@@ -23,7 +23,7 @@ export default function Navbar({ logout, user }) {
               <li className="nav-item">
                 <NavLink
                   to="/favorites"
-                  activeClassName="active"
+                  activeclassname="active"
                   className="nav-link"
                 >
                   Favorites
@@ -32,19 +32,19 @@ export default function Navbar({ logout, user }) {
               <li className="nav-item">
                 <NavLink
                   className="nav-link"
-                  activeClassName="active"
+                  activeclassname="active"
                   to="/contact"
                 >
                   Contact Us
                 </NavLink>
               </li>
             </div>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-              <div class="navbar-nav ms-auto">
+            <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div className="navbar-nav ms-auto">
                 <li className="nav-item">
                   <NavLink
                     to="/profile"
-                    activeClassName="active"
+                    activeclassname="active"
                     className="nav-link"
                   >
                     {user.username}
@@ -53,7 +53,7 @@ export default function Navbar({ logout, user }) {
                 <li className="nav-item">
                   <NavLink
                     to="/login"
-                    activeClassName="active"
+                    activeclassname="active"
                     className="nav-link"
                     onClick={logout}
                   >
@@ -65,11 +65,20 @@ export default function Navbar({ logout, user }) {
           </>
         ) : (
           <>
-            <div class="navbar-nav">
+            <div className="navbar-nav">
+              <li className="nav-item">
+                <NavLink
+                  to="/search"
+                  activeclassname="active"
+                  className="nav-link"
+                >
+                  Search
+                </NavLink>
+              </li>
               <li className="nav-item">
                 <NavLink
                   to="/register"
-                  activeClassName="active"
+                  activeclassname="active"
                   className="nav-link"
                 >
                   Signup
@@ -78,19 +87,19 @@ export default function Navbar({ logout, user }) {
               <li className="nav-item">
                 <NavLink
                   className="nav-link"
-                  activeClassName="active"
+                  activeclassname="active"
                   to="/contact"
                 >
                   Contact Us
                 </NavLink>
               </li>
             </div>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-              <div class="navbar-nav ms-auto">
+            <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div className="navbar-nav ms-auto">
                 <li className="nav-item">
                   <NavLink
                     to="/login"
-                    activeClassName="active"
+                    activeclassname="active"
                     className="nav-link"
                   >
                     Login
