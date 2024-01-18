@@ -23,6 +23,11 @@ const update = (userId, collegeId, data) => {
   return http.put(`/colleges/${userId}/${collegeId}`, data);
 };
 
+// Update a user by userId
+const updateUser = (userId, data) => {
+  return http.put(`/user/${userId}`, data);
+};
+
 // Delete college from favorites list (this one is working)
 const remove = (userId, collegeId) => {
   return http.delete(`/colleges/${userId}/${collegeId}`);
@@ -39,6 +44,7 @@ const CollegeService = {
   create,
   update,
   remove,
+  updateUser,
   // removeAll,
 };
 
