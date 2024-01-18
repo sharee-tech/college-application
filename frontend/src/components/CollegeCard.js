@@ -50,7 +50,6 @@ export default function CollegeCard({ details }) {
           >
             Visit
           </a>
-          {/* <small className="text-muted">Last updated 3 mins ago</small> */}
         </div>
       </div>
     </div>
