@@ -18,9 +18,6 @@ import java.util.Optional;
                 @UniqueConstraint(columnNames = "email")
         })
 
-
-
-
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
