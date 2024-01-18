@@ -3,8 +3,11 @@ Handles data access and management for users within the database, offering
 methods for CRUD operations and user-related database interactions.
  */
 package org.example.repositories;
+import org.example.models.College;
 import org.example.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -20,6 +23,8 @@ public interface UserRepository extends JpaRepository<User, Double> {
     Boolean existsByUsername(String username);
 
     Boolean existsByEmail(String email);
+
+    Optional<User> findById(Integer id);
 
 
 //    // Method to save a new user to the database
