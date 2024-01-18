@@ -56,21 +56,14 @@ export default function Favorite({
         </Button>
       </td>
       <td>
-        <h3 className={selectedFavorites.includes(college.id) ? "" : ""}>
-          {college["school.name"]}{" "}
-        </h3>
+        <h3>{college["school.name"]}</h3>
       </td>
-
       <td>
-        {/* <span className="badge rounded-pill text-bg-secondary ml-4">
-          {appStatus}
-        </span> */}
         <DisplayAppStatus status={appStatus} />
       </td>
       <td>
         <div className="form">
           <p>{notes}</p>
-          {/* <label for="floatingTextarea"></label> */}
         </div>
       </td>
       <td>
