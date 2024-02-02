@@ -11,7 +11,7 @@ IntelliJ
 Node.js
 MySQL Workbench
 
-Installation Clone the repository: git clone https://github.com/sharee-tech/coders-rise.git
+Installation Clone the repository: git clone https://github.com/sharee-tech/college-application.git
 
 Navigate to the project directory: cd college-application/frontend
 
