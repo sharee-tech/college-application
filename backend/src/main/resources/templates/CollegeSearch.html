@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>College Search</title>
+    <script>
+        function searchColleges() {
+            const apiKey = '9ZZyOXWjgPiz1iFHyL40BbmbzgVUVQhApNCAvH5M';
+            const userInput = document.getElementById('searchInput').value;
+            const encodedUserInput = encodeURIComponent(userInput);
+
+
+            // Make an API call or use fetch to get data
+            // Replace this with your API endpoint and logic to fetch data
+            // Example: Fetch data from a hypothetical API endpoint
+            fetch(`https://collegescorecard.ed.gov/search/?search=${userInput}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // For demonstration - replace with your logic to display results
+
+                    // Display the results on the HTML page
+                    const resultsContainer = document.getElementById('results');
+                    resultsContainer.innerHTML = ''; // Clear previous results
+
+                    // Iterate through the data and display each college
+                    data.forEach(college => {
+                        const collegeElement = document.createElement('div');
+                        collegeElement.innerHTML = `<strong>${college.name}</strong><br>
+                                                   City: ${college.city}<br>
+                                                   State: ${college.state}<br>
+                                                   Website: <a href="${college.website}" target="_blank">${college.website}</a><br><br>`;
+                        resultsContainer.appendChild(collegeElement);
+                    });
+                })
+        }
+    </script>
+</head>
+<body>
+<h1>College Search</h1>
+<input type="text" id="searchInput" placeholder="Enter college name">
+<button onclick="searchColleges()">Search</button>
+</body>
+</html>

@@ -1,4 +1,0 @@
-rootProject.name = 'CoderRise'
-include 'src:main:resources'
-findProject(':src:main:resources')?.name = 'Resources'
-

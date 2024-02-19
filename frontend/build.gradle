@@ -1,0 +1,24 @@
+//apply plugin: “com.moowork.node”
+//apply plugin: ‘base’
+//
+//task appNpmBuild(type: NpmTask) {
+//    args = [“run”, “build”]
+//}
+//
+//assemble.dependsOn(appNpmBuild)
+
+// Add the plugin into the build.
+plugins {
+    id "com.github.node-gradle.node" version "7.0.2"
+}
+
+// Configure the plugin to download and use specific Node version
+node {
+    download = true
+    version = "20.8.1"
+}
+
+// Register NpmTask that will do what "npm run build" command does.
+tasks.register('npmBuild', NpmTask) {
+    args = [ 'run', 'build' ]
+}

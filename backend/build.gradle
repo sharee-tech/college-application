@@ -32,7 +32,40 @@ dependencies {
             'org.apache.commons:commons-lang3:3.0'
 }
 
-
 test {
     useJUnitPlatform()
 }
+
+// 1. Registers a task that copies built web app into the service static content.
+tasks.register('copyFrontendApp', Copy) {
+    from "college-application/frontend/build"
+    into "college-application/backend/src/main/resources/static/."
+}
+
+// 2. Make compilation task dependent on web building, so it will always be performed before.
+tasks.named('compileJava') {
+    dependsOn(':frontend:npmBuild')
+}
+
+// 3. Make resources processing task dependent on copying task, so it will always be performed before.
+tasks.named('processResources') {
+    dependsOn('copyFrontendApp')
+}
+
+//make dependent on frontend
+
+//apply plugin: "org.springframework.boot"
+//apply plugin: "io.spring.dependency-management"
+//apply plugin: "java"
+//
+//dependencies {
+//    runtimeOnly project(‘:frontend’)
+//}
+//
+//task copyWebApp(type: Copy) {
+//    from “$college-application/frontend/build”
+//    into “college-application/backend/build/resources/main/static/.”
+//}
+//
+//bootJar.dependsOn(copyWebApp)
+//compileJava.dependsOn “:frontend:build”

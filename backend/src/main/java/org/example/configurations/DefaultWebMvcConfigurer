@@ -1,0 +1,32 @@
+package org.example.configurations;
+
+
+
+@Configuration
+class DefaultWebMvcConfigurer implements WebMvcConfigurer  {
+    // Register resource handler for all paths,
+    // get resources from classpath:/static/,
+    // use IndexFallbackResourceResolver for that
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry
+            .addResourceHandler("/**")
+            .addResourceLocations("classpath:/static/")
+            .resourceChain(true)
+            .addResolver(new IndexFallbackResourceResolver());
+    }
+
+    static class IndexFallbackResourceResolver extends PathResourceResolver {
+        @Override
+        protected Resource resolveResourceInternal(HttpServletRequest request, String requestPath,
+                                                   List<? extends Resource> locations, ResourceResolverChain chain) {
+            // Give PathResourceResolver a chance to resolve a resource on its own.
+            Resource resource = super.resolveResourceInternal(request, requestPath, locations, chain);
+            if (resource == null) {
+                // If resource wasn't found, use App.js file.
+                resource = super.resolveResourceInternal(request, "App.js", locations, chain);
+            }
+            return resource;
+        }
+    }
+}
